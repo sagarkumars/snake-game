@@ -29,11 +29,19 @@ while game_is_on:
     if snake.head.distance(food) < 15:
         print("nom nom nom")
         food.refresh()
+        snake.extend()
         scoreboard.increase_score()
 
+    # collusion with wall
     if (snake.head.xcor() > 300 or snake.head.xcor() < -300
             or snake.head.ycor() > 300 or snake.head.ycor() < -300):
         game_is_on = False
         scoreboard.game_over()
+
+    # collusion with tail
+    for segment in snake.segments[1:]:
+        if snake.head.distance(segment) < 10:
+            game_is_on = False
+            scoreboard.game_over()
 
 screen.exitonclick()
